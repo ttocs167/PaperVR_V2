@@ -6,7 +6,8 @@ public class BasicEnemyAI : MonoBehaviour {
     private GameObject player;
     public Rigidbody rgbd;
     public float maxSpeed = 0.5f;
-    public float force = 5f;
+    public float force = 10f;
+    private Vector3 direction;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +19,9 @@ public class BasicEnemyAI : MonoBehaviour {
 	void FixedUpdate () {
         Vector3 del = -this.transform.position + player.transform.position;
         Vector3 delForward = new Vector3(del.x, 0,del.z);
+        direction = delForward / delForward.magnitude;
         this.transform.forward = delForward;
+
         rgbd.AddForce(del * force);
         Vector3 vel = rgbd.velocity;
         if (vel.magnitude > maxSpeed)

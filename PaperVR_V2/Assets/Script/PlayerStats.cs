@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour {
-    public int maxHealth = 6;
-    public int currenthealth;
-    public int damage = 1;
+    public float maxHealth = 6;
+    public float currenthealth;
+    public float damage = 1;
 
 	// Use this for initialization
 	void Start ()

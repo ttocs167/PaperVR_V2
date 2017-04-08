@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour {
-    public int maxHealth;
-    public int currentHealth;
-    public int damage;
+    public float maxHealth;
+    public float currentHealth;
+    public float damage;
     public float maxSpeed;
 
     // Use this for initialization
@@ -15,14 +15,9 @@ public class EnemyStats : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
+        }
 	}
 }
-
-/*
-Global-> ALLCAPS
-local-> alllower
-method-> snake_case
-Class-> StartCaps
-object-> camelCase
-*/

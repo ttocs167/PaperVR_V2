@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour {
         if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
         {
             GameObject obj = Instantiate(prefab, this.transform.position, Quaternion.identity);
+            Destroy(obj, 7);
             Vector3 del = -lastPosition +thisPosition;
             obj.GetComponent<Rigidbody>().velocity = del/Time.fixedDeltaTime;
         }

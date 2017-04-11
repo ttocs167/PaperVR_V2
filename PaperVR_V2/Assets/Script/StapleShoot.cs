@@ -19,7 +19,6 @@ public class StapleShoot : MonoBehaviour {
         var device = SteamVR_Controller.Input((int)trackedObj.index);
         if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
         {
-            Debug.Log("fire");
             GameObject obj = Instantiate(prefab, this.transform.position, this.transform.rotation);
             Destroy(obj, 7);
             Vector3 del = this.transform.forward;

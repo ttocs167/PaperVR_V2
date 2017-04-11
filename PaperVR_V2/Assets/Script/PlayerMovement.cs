@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour {
             Vector3 del = -lastPosition +thisPosition;
             obj.GetComponent<Rigidbody>().velocity = del/Time.fixedDeltaTime;
         }
+        
         lastPosition = thisPosition;
 	}
 }

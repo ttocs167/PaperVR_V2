@@ -4,45 +4,59 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour {
     public SteamVR_TrackedObject trackedObj;
-    public GameObject TeleportObj;
-    public GameObject SwordObj;
-    public GameObject StapleGunObj;
-    public GameObject currentObj;
+    public GameObject[] items;
+    private SteamVR_Controller.Device device;
+    public SteamVR_TrackedController controller;
+    int currentObj =0;
+    int direction = 0;
     // Use this for initialization
-    void Start () {
-
-	}
+    void Start ()
+    {
+        items[currentObj].SetActive(true);
+        device = SteamVR_Controller.Input((int)trackedObj.index);        
+        
+    }
 	
-	// Update is called once per frame
-	void Update () {
-        var device = SteamVR_Controller.Input((int)trackedObj.index);
-
-        if(device.GetAxis().x!=0 || device.GetAxis().y != 0)
+    private void Controller_PadClicked()
+    {
+        if(device.GetAxis().x!=0||device.GetAxis().y!=0)
         {
-            if(device.GetAxis().x>0)
+            Debug.Log(device.GetAxis().x + " " + device.GetAxis().y);
+
+            if (device.GetAxis().x > 0.5)
             {
-                Destroy(currentObj);
-                currentObj = Instantiate(SwordObj, this.transform);
-                currentObj.transform.parent = this.gameObject.transform;
+                direction = 0;
             }
-            else if(device.GetAxis().x>0)
+            else if (device.GetAxis().x < -0.5)
             {
-                Destroy(currentObj);
-                currentObj = Instantiate(TeleportObj, this.transform);
-                currentObj.transform.parent = this.gameObject.transform;
-                currentObj.GetComponent<PlayerMovement>().trackedObj = trackedObj;
+                direction = 1;
             }
-            else if(device.GetAxis().y>0)
+            else if (device.GetAxis().y > 0.5)
             {
-                Destroy(currentObj);
-                currentObj = Instantiate(StapleGunObj, this.transform);
-                currentObj.transform.parent = this.gameObject.transform;
-                currentObj.GetComponent<StapleShoot>().trackedObj = trackedObj;
+                direction = 2;
             }
-            else if (device.GetAxis().y<0)
+            else if (device.GetAxis().y < -0.5)
             {
-                Destroy(currentObj);
+                direction = 3;
             }
         }
+    }
+
+	// Update is called once per frame
+	void Update ()
+    {
+        if (device.GetAxis().x != 0 || device.GetAxis().y != 0)
+        {
+            Controller_PadClicked();
+        }
+
+            if (currentObj!=direction)
+        {
+            items[currentObj].SetActive(false);
+            currentObj = direction;
+            items[currentObj].SetActive(true);
+        }
+            
+        
     }
 }

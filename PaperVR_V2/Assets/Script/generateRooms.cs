@@ -25,7 +25,7 @@ public class generateRooms : MonoBehaviour
         doorLocations = new List<Vector3>();
         doorRotations = new List<Vector3>();
         //Random room generation
-        for (int n = 1; n < numRooms; n++)
+        for (int n = 1; n <= numRooms; n++)
         {
             roomLocations[n] = this.transform.position;
             for (int j = 0; j < n; j++)
@@ -98,17 +98,19 @@ public class generateRooms : MonoBehaviour
 
     private Vector3 bossLocation()
     {
-        Vector3 boss = new Vector3(0, 0, 0);
-        Vector3 lastRoom = new Vector3(0, 0, 0);
+        Vector3 boss = roomLocations[0];
+        Vector3 lastRoom = roomLocations[0];
         int i; 
         Vector3 move = new Vector3(0, 0, 0);
         for (int n = 1; n <= numRooms; n++)
         {
-            if (Vector3.Distance(lastRoom, this.transform.position) < Vector3.Distance(roomLocations[n], this.transform.position))
+            if (Vector3.Distance(lastRoom, roomLocations[0]) < Vector3.Distance(roomLocations[n], roomLocations[0]))
             {
                 lastRoom = roomLocations[n];
             }
         }
+        move = movement();
+        boss = lastRoom + move;
         for (int j = 0; j <= numRooms; j++)
         {
             if (boss == roomLocations[j])
@@ -118,6 +120,7 @@ public class generateRooms : MonoBehaviour
                 j = -1;
             }
         }
+        roomLocations[numRooms + 1] = boss;
         doorLocations.Add(lastRoom + (move/2));
         i = Random.Range(0, bossRooms.Length);
         Instantiate(bossRooms[i], boss, Quaternion.Euler(findangle(move)));

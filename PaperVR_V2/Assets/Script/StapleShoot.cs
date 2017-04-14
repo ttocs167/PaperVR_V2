@@ -6,11 +6,15 @@ public class StapleShoot : MonoBehaviour {
     public float projectileVelociity = 10f;
     public SteamVR_TrackedObject trackedObj;
     public GameObject prefab;
-
+    public ushort length = 3000;
+    public AudioClip shootSound;
+    private AudioSource source;
+    private float volLowRange = 5f;
+    private float volHighRange = 10f;
     // Use this for initialization
     void Start ()
     {
-		
+        source = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -24,6 +28,10 @@ public class StapleShoot : MonoBehaviour {
             Vector3 del = this.transform.forward;
             del = (del / del.magnitude) * projectileVelociity;
             obj.GetComponent<Rigidbody>().velocity = del;
+            float vol = Random.Range(volLowRange, volHighRange);
+            //source.PlayOneShot(shootSound, vol);
+            device.TriggerHapticPulse(length,Valve.VR.EVRButtonId.k_EButton_Grip);
+           
         }
     }
 }

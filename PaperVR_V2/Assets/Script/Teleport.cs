@@ -7,6 +7,8 @@ public class Teleport : MonoBehaviour {
     public float y_offset = 3f;
     public GameObject particle;
     private Rigidbody rgbd;
+    private float timer =0;
+    private float killTimer = 7f;
 	// Use this for initialization
 	void Start () {
         rig = GameObject.FindWithTag("Rig");
@@ -15,8 +17,12 @@ public class Teleport : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update ()
-{
-
+    {
+        timer += Time.deltaTime;
+        if(timer>killTimer)
+        {
+            Destroy(this.gameObject);
+        }
 	}
 
     private void OnTriggerEnter(Collider collision)
@@ -26,14 +32,13 @@ public class Teleport : MonoBehaviour {
             //float rigX = Mathf.Round(this.transform.position.x/3) * 3.0f;
             //float rigZ = Mathf.Round(this.transform.position.z / 3) * 3.0f;
             // rig.transform.position = new Vector3(rigX, 0, rigZ);
-            if(rgbd.velocity.y<=0)
-            {
-                Debug.Log("EXPLOSION");
+            //if(rgbd.velocity.y<=0)
+            //{                
                 Vector3 pos = collision.gameObject.transform.position;
                 rig.transform.position = new Vector3(pos.x, pos.y + y_offset, pos.z);
                 rig.GetComponent<RIG>().elevator = null;
                 Instantiate(particle, this.transform);
-            }            
+            //}            
             Destroy(this.gameObject);            
         }
     }
@@ -52,7 +57,7 @@ public class Teleport : MonoBehaviour {
             if (collision.gameObject.tag == "Floor")
             {
 
-                Debug.Log("EXPLOSION");
+                Debug.Log("DoIT");
                 Vector3 pos = collision.gameObject.transform.position;
                 Vector3 bounds = collision.gameObject.GetComponent<Collider>().bounds.extents;
                 bounds.y = 0;
@@ -65,6 +70,7 @@ public class Teleport : MonoBehaviour {
                 rig.GetComponent<RIG>().elevator = null;
                 Instantiate(particle, this.transform);
                 Destroy(this.gameObject);
+                
             }
         }
         
